@@ -101,6 +101,39 @@ sys_kpgtbl(void)
 }
 #endif
 
+#ifdef LAB_PGTBL
+int
+sys_pgaccess(void)
+{
+  uint64 start_va;
+  int npages;
+  uint64 user_bitmask_addr;
+  uint64 bitmask = 0;
+  struct proc *p = myproc();
+  pte_t *pte;
+
+  argaddr(0, &start_va);
+  argint(1, &npages);
+  argaddr(2, &user_bitmask_addr);
+
+  if(npages > 64)
+    npages = 64;
+
+  for(int i = 0; i < npages; i++) {
+    uint64 va = start_va + i * PGSIZE;
+    pte = walk(p->pagetable, va, 0);
+    if(pte != 0 && (*pte & PTE_V) && (*pte & PTE_A)) {
+      bitmask |= (1L << i);
+      *pte &= ~PTE_A;
+    }
+  }
+
+  if(copyout(p->pagetable, user_bitmask_addr, (char *)&bitmask, sizeof(bitmask)) < 0)
+    return -1;
+
+  return 0;
+}
+#endif
 
 uint64
 sys_kill(void)
