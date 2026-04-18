@@ -1,0 +1,6 @@
+# Ignore reference directories (read-only)
+lab-xv6/
+lab-syscalls/
+
+# Ignore compiled artifacts
+codedb.snapshot
