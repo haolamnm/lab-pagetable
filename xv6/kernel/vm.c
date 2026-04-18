@@ -498,8 +498,9 @@ vmprint_recursive(pagetable_t pagetable, int level)
     pte_t pte = pagetable[i];
     if(pte & PTE_V){
       // Print indentation: ".. " for each level below top
-      for(int j = 2; j > level; j--){
-        printf(".. ");
+      for(int j = 2; j >= level; j--){
+        printf("..");
+        if (j > level) printf(" ");
       }
       printf("%d: pte %p pa %p\n", i, (void*)pte, (void*)PTE2PA(pte));
       
@@ -515,6 +516,7 @@ vmprint_recursive(pagetable_t pagetable, int level)
 void
 vmprint(pagetable_t pagetable)
 {
+  if(pagetable == 0) return;
   printf("page table %p\n", (void*)pagetable);
   vmprint_recursive(pagetable, 2);
 }
