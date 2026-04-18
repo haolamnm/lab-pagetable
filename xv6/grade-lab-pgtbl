@@ -19,9 +19,9 @@ def test_ugetpid_():
 def test_print_kpgtbl_():
     r.match(
         '^page table 0x',
-        r'^\.\.0: pte 0x',
-        r'^\.\. \.\.0: pte 0x',
-        r'^\.\. \.\. \.\.0: pte 0x',
+        r'^\.\.0: pte 0x[0-9a-fA-F]+ pa 0x[0-9a-fA-F]+',
+        r'^\.\. \.\.0: pte 0x[0-9a-fA-F]+ pa 0x[0-9a-fA-F]+',
+        r'^\.\. \.\. \.\.0: pte 0x[0-9a-fA-F]+ pa 0x[0-9a-fA-F]+',
     )
 
 @test(5, "answers-pgtbl.txt")
