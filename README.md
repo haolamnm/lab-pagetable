@@ -40,26 +40,6 @@ make qemu
 
 # Inside QEMU, run the test suite
 $ pgtbltest
-
-# Or run the automated grader
-make grade
-```
-
-## Project Structure
-
-```
-lab-pagetable/
-├── xv6/                    # Working xv6 source (baseline + modifications)
-│   ├── kernel/
-│   │   ├── proc.c         # Task 4.1: usyscall implementation
-│   │   ├── vm.c           # Task 4.2: vmprint()
-│   │   ├── sysproc.c      # Task 4.3: pgaccess()
-│   │   └── ...
-│   └── user/
-│       └── pgtbltest.c    # Test suite
-├── lab-xv6/               # Reference (read-only)
-├── lab-syscalls/          # Reference (read-only)
-└── README.md
 ```
 
 ## Implementation Details
@@ -82,31 +62,12 @@ lab-pagetable/
 - Implements `pgaccess()` system call
 - Returns bitmask of accessed pages, clears PTE_A after check
 
-## Files Modified
-
-```
-kernel/proc.h      +1   (usyscall field)
-kernel/proc.c      +22  (alloc/free/map/unmap)
-kernel/vm.c        +30  (vmprint + recursive)
-kernel/defs.h      +1   (vmprint declaration)
-kernel/exec.c      +4   (vmprint call)
-kernel/riscv.h     +1   (PTE_A definition)
-kernel/sysproc.c   +33  (sys_pgaccess)
-kernel/syscall.h   +1   (SYS_pgaccess)
-kernel/syscall.c   +2   (extern + table entry)
-user/usys.pl       +1   (pgaccess entry)
-user/user.h        +1   (pgaccess prototype)
-user/usertests.c   +1   (fixed rwsbrk signature)
-```
-
 ## Testing
 
 The `pgtbltest` user program tests all three tasks:
 - `ugetpid_test`: Verifies fast PID retrieval
 - `vmprint_test`: Verifies page table output format
 - `pgaccess_test`: Verifies accessed page detection
-
-Run `make grade` for full automated testing.
 
 ## References
 
